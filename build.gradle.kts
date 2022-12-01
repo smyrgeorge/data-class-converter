@@ -56,5 +56,10 @@ tasks.withType<Test> {
 
 // Disables the build of '**-plain.jar'
 tasks.getByName<Jar>("jar") {
-    enabled = false
+    enabled = true
+    // Found here:
+    // https://www.jetbrains.com/help/idea/create-your-first-kotlin-app.html#package-as-jar
+    manifest { attributes["Main-Class"] = "com.smyrgeorge.MainKt" }
+    configurations["compileClasspath"].forEach { file: File -> from(zipTree(file.absoluteFile)) }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
